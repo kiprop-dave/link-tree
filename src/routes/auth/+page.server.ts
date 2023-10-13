@@ -1,8 +1,12 @@
 import { redirect, fail } from '@sveltejs/kit';
 import type { Actions } from './$types';
+import { eq } from 'drizzle-orm';
+import { hash, compare } from 'bcrypt';
+import { db } from '$lib/server';
+import { usersTable } from '$lib/server/schema';
 
 export const actions = {
-  login: async ({ request }) => {
+  login: async ({ request, cookies }) => {
     const data = await request.formData();
     const email = data.get('email');
     const password = data.get('password');
@@ -12,8 +16,24 @@ export const actions = {
     if (email?.toString()?.length < 1) {
       return fail(400, { email, missing: true });
     }
-    console.log("login", email, password);
-    // TODO login the user
+
+    if (!password) {
+      return fail(400, { password, missing: true })
+    }
+    const user = await db.select({
+      email: usersTable.email,
+      id: usersTable.id,
+      password: usersTable.password
+    }).from(usersTable).where(eq(usersTable.email, email.toString())).limit(1);
+
+    if (user.length === 0) {
+      return fail(401, { email, unregistered: true, register: true })
+    }
+    const correctPassword = await compare(password.toString(), user[0].password)
+    if (!correctPassword) {
+      return fail(401, { email, invalid: true })
+    }
+    cookies.set("auth_token", "jfdfdfdfd", { sameSite: "strict", maxAge: 120 });
     throw redirect(303, '/');
   },
   register: async ({ request }) => {
@@ -33,8 +53,12 @@ export const actions = {
     if (!confirmPassword || confirmPassword.toString() !== password.toString()) {
       return fail(400, { confirmPassword, password, email, mismatch: true, register: true })
     }
-    console.log("register", email, password);
-    // TODO register the user
+
+    const passwordHash = await hash(password.toString(), 10);
+    const newUser = await db.insert(usersTable).values({
+      email: email.toString(),
+      password: passwordHash
+    })
     throw redirect(303, '/');
   }
 } satisfies Actions;
