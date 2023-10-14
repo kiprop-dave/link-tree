@@ -14,6 +14,9 @@ dependencies:
   drizzle-orm:
     specifier: ^0.28.6
     version: 0.28.6(postgres@3.4.0)
+  jose:
+    specifier: ^4.15.3
+    version: 4.15.3
   postgres:
     specifier: ^3.4.0
     version: 3.4.0
@@ -1747,6 +1750,10 @@ packages:
     resolution: {integrity: sha512-3TV69ZbrvV6U5DfQimop50jE9Dl6J8O1ja1dvBbMba/sZ3YBEQqJ2VZRoQPVnhlzjNtU1vaXRZVrVjU4qtm8yA==}
     hasBin: true
     dev: true
+
+  /jose@4.15.3:
+    resolution: {integrity: sha512-RZJdL9Qjd1sqNdyiVteRGV/bnWtik/+PJh1JP4kT6+x1QQMn+7ryueRys5BEueuayvSVY8CWGCisCDazeRLTuw==}
+    dev: false
 
   /js-sdsl@4.4.2:
     resolution: {integrity: sha512-dwXFwByc/ajSV6m5bcKAPwe4yDDF6D614pxmIi5odytzxRlwqF6nwoiCek80Ixc7Cvma5awClxrzFtxCQvcM8w==}
