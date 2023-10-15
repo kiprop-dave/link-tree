@@ -19,6 +19,7 @@ export const load: PageServerLoad = async ({ cookies }) => {
 		.select({
 			userId: usersTable.id,
 			email: usersTable.email,
+			profileId: profilesTable.id,
 			firstName: profilesTable.firstName,
 			lastName: profilesTable.lastName,
 			links: profilesTable.links,

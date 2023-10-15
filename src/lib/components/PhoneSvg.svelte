@@ -1,6 +1,7 @@
 <script lang="ts">
-	import type { UserProfile } from './types';
-	import { userProfile } from './stores/userProfile';
+	import { userProfile } from '../stores/userProfile';
+	//import type { Platform } from '$lib/server/schema';
+	//type BackgroundText = Record<Platform,{text:string,background:string}>
 
 	$: displayPicture = $userProfile?.image;
 	$: firstName = $userProfile?.firstName;
@@ -39,10 +40,23 @@
 		<rect width="72" height="8" x="117.5" y="214" fill="#EEE" rx="4" />
 	{/if}
 	{#if links}
-		<foreignObject width="100%" height="32" x="0" y="278">
+		<foreignObject width="84%" height="100%" x="25" y="248">
 			{#each links as link}
-				<a href={link.url} target="_blank" rel="noreferrer">
-					<p class="text-center text-gray-600">{link.platform}</p>
+				<a href={link.url} target="_blank" rel="noreferrer" class="">
+					<div
+						class="flex items-center justify-between mb-2 h-10 rounded-md px-2"
+						class:bg-blue-500={link.platform === 'twitter'}
+						class:bg-purple-500={link.platform === 'instagram'}
+						class:bg-zinc-900={link.platform === 'github'}
+						class:bg-white={link.platform === 'frontend-mentor'}
+						class:bg-blue-800={link.platform === 'facebook'}
+					>
+						{#if link.platform.length > 0}
+							<img src={`/images/icon-${link.platform}.svg`} alt={link.platform} class="h-6" />
+						{/if}
+						<p class:text-white={link.platform === 'github'}>{link.platform}</p>
+						<img src="/images/icon-arrow-right.svg" alt="arrow" class="h-6" />
+					</div>
 				</a>
 			{/each}
 		</foreignObject>
