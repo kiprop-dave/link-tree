@@ -2,7 +2,7 @@ import { writable } from 'svelte/store';
 import type { UserProfile } from '$lib/types';
 import type { Platform } from '$lib/server/schema';
 
-export const userProfile = writable<UserProfile | null>(null);
+export const userProfile = writable<(UserProfile & { hasChanged: boolean }) | null>(null);
 
 export const addLink = (platform: Platform | '', url: string) => {
 	userProfile.update((userProfile) => {
@@ -11,6 +11,7 @@ export const addLink = (platform: Platform | '', url: string) => {
 		}
 		return {
 			...userProfile,
+			hasChanged: true,
 			links: [...(userProfile.links || []), { platform, url }]
 		};
 	});
@@ -41,6 +42,21 @@ export const removeLink = (index: number) => {
 		return {
 			...userProfile,
 			links: (userProfile.links || []).filter((_, i) => i !== index)
+		};
+	});
+};
+
+export const fillProfile = (firstName: string, lastName: string, email: string) => {
+	userProfile.update((userProfile) => {
+		if (!userProfile) {
+			return null;
+		}
+		return {
+			...userProfile,
+			hasChanged: true,
+			firstName,
+			lastName,
+			email
 		};
 	});
 };

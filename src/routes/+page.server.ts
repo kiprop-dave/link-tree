@@ -1,5 +1,5 @@
 import { redirect } from '@sveltejs/kit';
-import type { PageServerLoad } from './$types';
+import type { PageServerLoad, Actions } from './$types';
 import { eq } from 'drizzle-orm';
 import { verifyJWT } from '$lib/server/jwt';
 import { db } from '$lib/server';
@@ -39,3 +39,14 @@ export const load: PageServerLoad = async ({ cookies }) => {
 	const data = userProfile[0];
 	return { data };
 };
+
+export const actions = {
+	default: async ({ request }) => {
+		const data = await request.formData();
+		const firstName = data.get('first_name');
+		const lastName = data.get('last_name');
+		const email = data.get('email');
+		const profilePic = data.get('profile_pic');
+		console.log(firstName, lastName, email, profilePic);
+	}
+} satisfies Actions;

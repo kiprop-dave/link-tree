@@ -64,6 +64,7 @@
 	<div class="flex items-center justify-end">
 		<button
 			type="button"
+			disabled={!$userProfile?.hasChanged}
 			class="rounded-lg px-6 py-2 bg-purple-800 text-white font-semibold disabled:bg-purple-300 disabled:cursor-not-allowed focus:ring-2 focus:ring-purple-800"
 		>
 			Save

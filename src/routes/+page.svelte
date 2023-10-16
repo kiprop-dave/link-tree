@@ -9,7 +9,7 @@
 
 	export let data: PageData;
 	onMount(() => {
-		userProfile.set({ ...data.data });
+		userProfile.set({ ...data.data, hasChanged: false });
 	});
 
 	type Tab = 'links' | 'profile';
