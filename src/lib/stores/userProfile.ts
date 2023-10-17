@@ -41,7 +41,8 @@ export const removeLink = (index: number) => {
 		}
 		return {
 			...userProfile,
-			links: (userProfile.links || []).filter((_, i) => i !== index)
+			links: (userProfile.links || []).filter((_, i) => i !== index),
+			hasChanged: true
 		};
 	});
 };
@@ -59,4 +60,29 @@ export const fillProfile = (firstName: string, lastName: string, email: string) 
 			email
 		};
 	});
+};
+
+type SaveLinksResult = ({ data: UserProfile } & { status: 'success' }) | { status: 'failed' };
+
+export const saveLinks = async (
+	profileId: number,
+	links: { platform: Platform; url: string }[]
+): Promise<SaveLinksResult> => {
+	try {
+		const res = await fetch('/api/profile', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				profileId,
+				links
+			})
+		});
+		const data = (await res.json()) as UserProfile;
+		return { status: 'success', data };
+	} catch (err) {
+		console.error(err);
+		return { status: 'failed' };
+	}
 };

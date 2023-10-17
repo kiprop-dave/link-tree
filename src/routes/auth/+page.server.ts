@@ -3,7 +3,7 @@ import type { Actions, PageServerLoad } from './$types';
 import { eq } from 'drizzle-orm';
 import { hash, compare } from 'bcrypt';
 import { db } from '$lib/server';
-import { usersTable } from '$lib/server/schema';
+import { profilesTable, usersTable } from '$lib/server/schema';
 import { createJWT, verifyJWT } from '$lib/server/jwt';
 
 export const load: PageServerLoad = async ({ cookies }) => {
@@ -70,11 +70,16 @@ export const actions = {
 			return fail(400, { confirmPassword, password, email, mismatch: true, register: true });
 		}
 		const passwordHash = await hash(password.toString(), 10);
+		const newProfille = await db
+			.insert(profilesTable)
+			.values({})
+			.returning({ insertedId: profilesTable.id });
 		const newUser = await db
 			.insert(usersTable)
 			.values({
 				email: email.toString(),
-				password: passwordHash
+				password: passwordHash,
+				profileId: newProfille[0].insertedId
 			})
 			.returning({ insertedId: usersTable.id });
 

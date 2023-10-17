@@ -69,6 +69,7 @@
 				class="w-full h-12 text-gray-600 border border-gray-300 rounded-lg pr-3 pl-8 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-600"
 				on:input={(evt) => debounce(evt)}
 				placeholder="https://www.example.com"
+				bind:value={url}
 			/>
 		</div>
 	</form>

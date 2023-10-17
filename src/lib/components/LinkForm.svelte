@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { userProfile, addLink } from '$lib/stores/userProfile';
+	import { userProfile, addLink, saveLinks } from '$lib/stores/userProfile';
 	import type { Platform } from '$lib/server/schema';
 	import CreateLink from './CreateLink.svelte';
+	import Spinner from './Spinner.svelte';
 
 	let remainingLinks: Platform[] = [
 		'instagram',
@@ -11,14 +12,7 @@
 		'github'
 	];
 
-	// $: {
-	// 	console.log($userProfile?.links);
-	// 	if ($userProfile && $userProfile.links) {
-	// 		remainingLinks = remainingLinks.filter((platform) => {
-	// 			return !$userProfile?.links?.map((link) => link.platform).includes(platform);
-	// 		});
-	// 	}
-	// }
+	let loading = false;
 
 	const addNewLink = () => {
 		if (remainingLinks.length > 0) {
@@ -28,6 +22,24 @@
 			) {
 				addLink('', '');
 			}
+		}
+	};
+
+	const save = () => {
+		if ($userProfile?.links && $userProfile?.profileId) {
+			loading = true;
+			const links = $userProfile.links as { platform: Platform; url: string }[];
+			saveLinks($userProfile.profileId, links)
+				.then((result) => {
+					if (result.status === 'success') {
+						userProfile.set({ ...result.data, hasChanged: false });
+					}
+				})
+				.finally(() => {
+					setTimeout(() => {
+						loading = false;
+					}, 2000);
+				});
 		}
 	};
 </script>
@@ -64,10 +76,18 @@
 	<div class="flex items-center justify-end">
 		<button
 			type="button"
-			disabled={!$userProfile?.hasChanged}
-			class="rounded-lg px-6 py-2 bg-purple-800 text-white font-semibold disabled:bg-purple-300 disabled:cursor-not-allowed focus:ring-2 focus:ring-purple-800"
+			disabled={!$userProfile?.hasChanged || loading}
+			on:click={save}
+			class="rounded-lg px-6 py-2 text-white font-semibold focus:ring-2 focus:ring-purple-800"
+			class:cursor-not-allowed={!$userProfile?.hasChanged || loading}
+			class:bg-purple-300={!$userProfile?.hasChanged && !loading}
+			class:bg-purple-800={$userProfile?.hasChanged || loading}
 		>
-			Save
+			{#if loading}
+				<Spinner />
+			{:else}
+				Save
+			{/if}
 		</button>
 	</div>
 </div>

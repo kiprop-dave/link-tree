@@ -33,7 +33,7 @@
 		<h1 class="text-3xl font-bold">Profile details</h1>
 		<p class="text-gray-600">Fill your details to add a personal touch to your profile</p>
 	</div>
-	<form class="flex flex-col gap-6" method="POST">
+	<form class="flex flex-col gap-6" method="POST" enctype="multipart/form-data">
 		<div class="flex flex-col md:flex-row md:items-center gap-2 bg-gray-100 rounded-lg p-2">
 			<label for="profile_pic" class="text-gray-600 md:mr-16">Profile picture</label>
 			<label
@@ -110,6 +110,7 @@
 						name="email"
 						placeholder="eg. johndoe@gmail.com"
 						bind:value={email}
+						disabled={true}
 						class="h-12 pl-8 flex-1 border border-gray-300 rounded-lg px-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-500 text-gray-500"
 					/>
 				</div>
