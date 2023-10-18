@@ -9,7 +9,8 @@
 		'facebook',
 		'frontend-mentor',
 		'twitter',
-		'github'
+		'github',
+		'linkedin'
 	];
 
 	let loading = false;
@@ -36,9 +37,7 @@
 					}
 				})
 				.finally(() => {
-					setTimeout(() => {
-						loading = false;
-					}, 2000);
+					loading = false;
 				});
 		}
 	};

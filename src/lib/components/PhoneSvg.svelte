@@ -50,6 +50,8 @@
 						class:bg-zinc-900={link.platform === 'github'}
 						class:bg-white={link.platform === 'frontend-mentor'}
 						class:bg-blue-800={link.platform === 'facebook'}
+						class:bg-blue-600={link.platform === 'linkedin'}
+						class:bg-gray-400={link.platform === 'frontend-mentor'}
 					>
 						{#if link.platform.length > 0}
 							<img src={`/images/icon-${link.platform}.svg`} alt={link.platform} class="h-6" />
@@ -63,9 +65,4 @@
 	{:else}
 		<!-- else content here -->
 	{/if}
-	<!-- <rect width="237" height="44" x="35" y="278" fill="#EEE" rx="8" /> -->
-	<!-- <rect width="237" height="44" x="35" y="342" fill="#EEE" rx="8" /> -->
-	<!-- <rect width="237" height="44" x="35" y="406" fill="#EEE" rx="8" /> -->
-	<!-- <rect width="237" height="44" x="35" y="470" fill="#EEE" rx="8" /> -->
-	<!-- <rect width="237" height="44" x="35" y="534" fill="#EEE" rx="8" /> -->
 </svg>
