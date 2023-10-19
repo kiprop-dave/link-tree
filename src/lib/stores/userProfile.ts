@@ -86,3 +86,23 @@ export const saveLinks = async (
 		return { status: 'failed' };
 	}
 };
+
+export const reorderLinks = (linkOneIndex: number, linkTwoIndex: number) => {
+	userProfile.update((userProfile) => {
+		if (!userProfile) {
+			return null;
+		}
+		const links = userProfile.links ? [...userProfile.links] : null;
+		if (!links) {
+			return {
+				...userProfile
+			};
+		}
+		[[links[linkOneIndex], links[linkTwoIndex]]] = [[links[linkTwoIndex], links[linkOneIndex]]];
+		return {
+			...userProfile,
+			links,
+			hasChanged: true
+		};
+	});
+};

@@ -10,10 +10,18 @@
 	export let remainingLinks: Platform[];
 	export let index: number;
 	export let link: Link;
+	export let dragStart: (index: number) => void;
+	export let dragEnter: (index: number) => void;
+	export let dragEnd: () => void;
 
 	let selectedPlatform: Platform | '' = link.platform;
 	let url: string = link.url;
 	let timer: ReturnType<typeof setTimeout>;
+
+	$: imageSrc =
+		selectedPlatform === 'instagram'
+			? '/images/icon-instagram.svg'
+			: `/images/icon-${selectedPlatform}-gray.svg`;
 
 	const debounce = (evt: Event) => {
 		const v = (evt.target as HTMLInputElement).value;
@@ -28,10 +36,26 @@
 	}
 </script>
 
-<div class="flex flex-col gap-4 bg-gray-100 px-2 py-4 rounded-lg">
+<div
+	class="flex flex-col gap-4 bg-gray-100 px-2 py-4 rounded-lg"
+	role="listitem"
+	draggable="true"
+	on:dragstart={() => {
+		dragStart(index);
+	}}
+	on:dragenter={() => {
+		dragEnter(index);
+	}}
+	on:dragover={(e) => {
+		e.preventDefault();
+	}}
+	on:dragend={() => {
+		dragEnd();
+	}}
+>
 	<div class="rounded-lg flex items-center justify-between">
 		<p class="flex items-center gap-2 text-gray-600 font-semibold">
-			<span class="cursor-pointer">
+			<span class="pointer-events-none cursor-grab">
 				<img src="/images/icon-drag-and-drop.svg" alt="drag and drop" />
 			</span>
 			<span class="pointer-events-none">
@@ -44,17 +68,26 @@
 	</div>
 	<form class="flex flex-col gap-2">
 		<label for="platform" class="block text-sm text-gray-600">Platform</label>
-		<select
-			id="platform"
-			name="platform"
-			class="w-full bg-white h-12 border border-gray-300 text-gray-600 rounded-lg pr-3 pl-8 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-600"
-			bind:value={selectedPlatform}
-		>
-			<option value="">Select platform</option>
-			{#each remainingLinks as platform}
-				<option value={platform}>{platform[0].toUpperCase() + platform.slice(1)}</option>
-			{/each}
-		</select>
+		<div class="relative w-full h-12 flex items-center gap-2">
+			{#if selectedPlatform !== ''}
+				<img
+					src={imageSrc}
+					alt="platform"
+					class="h-5 w-5 absolute left-2 top-1/2 -translate-y-1/2"
+				/>
+			{/if}
+			<select
+				id="platform"
+				name="platform"
+				class="w-full bg-white h-12 border border-gray-300 text-gray-600 rounded-lg pr-3 pl-8 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-600"
+				bind:value={selectedPlatform}
+			>
+				<option value="">Select platform</option>
+				{#each remainingLinks as platform}
+					<option value={platform}>{platform[0].toUpperCase() + platform.slice(1)}</option>
+				{/each}
+			</select>
+		</div>
 		<label for="link" class="block text-sm text-gray-600">Link</label>
 		<div class="relative w-full h-12 flex items-center gap-2">
 			<img

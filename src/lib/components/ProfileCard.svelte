@@ -38,7 +38,7 @@
 					class:bg-white={link.platform === 'frontend-mentor'}
 					class:bg-blue-800={link.platform === 'facebook'}
 					class:bg-blue-600={link.platform === 'linkedin'}
-					class:bg-gray-300={link.platform === 'frontend-mentor'}
+					class:bg-slate-300={link.platform === 'frontend-mentor'}
 				>
 					<img src={`/images/icon-${link.platform}.svg`} alt="social" class="h-6" />
 					<span class="" class:text-white={link.platform === 'github'}>{link.platform}</span>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { userProfile, addLink, saveLinks } from '$lib/stores/userProfile';
+	import { userProfile, addLink, saveLinks, reorderLinks } from '$lib/stores/userProfile';
 	import type { Platform } from '$lib/server/schema';
 	import CreateLink from './CreateLink.svelte';
 	import Spinner from './Spinner.svelte';
@@ -14,6 +14,8 @@
 	];
 
 	let loading = false;
+	let dragIndex: number | null = null;
+	let dropIndex: number | null = null;
 
 	const addNewLink = () => {
 		if (remainingLinks.length > 0) {
@@ -25,6 +27,24 @@
 			}
 		}
 	};
+
+	const dragStart = (index: number) => {
+		dragIndex = index;
+	};
+
+	const dragEnter = (index: number) => {
+		dropIndex = index;
+	};
+
+	const dragEnd = () => {
+		if (dragIndex !== null && dropIndex !== null) {
+			reorderLinks(dragIndex, dropIndex);
+		}
+		dragIndex = null;
+		dropIndex = null;
+	};
+
+	$: links = $userProfile?.links;
 
 	const save = () => {
 		if ($userProfile?.links && $userProfile?.profileId) {
@@ -56,7 +76,7 @@
 		+ Add new Link
 	</button>
 	<div class="h-[calc(100vh-120px)] flex flex-col gap-2 rounded-lg overflow-y-scroll no-scrollbar">
-		{#if !$userProfile?.links || $userProfile.links.length === 0}
+		{#if !links}
 			<div class="flex flex-col items-center bg-gray-100 justify-center gap-2 h-full">
 				<img src="/images/illustration-empty.svg" alt="links" class="" />
 				<h1 class="text-3xl font-semibold">Let's get you started</h1>
@@ -66,8 +86,8 @@
 				</p>
 			</div>
 		{:else}
-			{#each $userProfile.links as link, index}
-				<CreateLink {remainingLinks} {index} {link} />
+			{#each links as link, index (link.platform)}
+				<CreateLink {remainingLinks} {index} {link} {dragStart} {dragEnter} {dragEnd} />
 			{/each}
 		{/if}
 	</div>

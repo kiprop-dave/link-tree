@@ -63,7 +63,6 @@ export const actions = {
 			return fail(400, { email, invalid: true, register: true });
 		}
 		if (!password || !passwordRegex.test(password.toString())) {
-			console.log(password);
 			return fail(400, { password, email, badPassword: true, register: true });
 		}
 		if (!confirmPassword || confirmPassword.toString() !== password.toString()) {

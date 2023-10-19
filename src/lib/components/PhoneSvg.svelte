@@ -51,7 +51,7 @@
 						class:bg-white={link.platform === 'frontend-mentor'}
 						class:bg-blue-800={link.platform === 'facebook'}
 						class:bg-blue-600={link.platform === 'linkedin'}
-						class:bg-gray-400={link.platform === 'frontend-mentor'}
+						class:bg-slate-300={link.platform === 'frontend-mentor'}
 					>
 						{#if link.platform.length > 0}
 							<img src={`/images/icon-${link.platform}.svg`} alt={link.platform} class="h-6" />
