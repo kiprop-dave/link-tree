@@ -1,38 +1,51 @@
-# create-svelte
+# Frontend Mentor - Link-sharing app solution
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+This is a solution to the [Link-sharing app challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/linksharing-app-Fbt7yweGsT). Frontend Mentor challenges help you improve your coding skills by building realistic projects.
 
-## Creating a project
+## Table of contents
 
-If you're seeing this, you've probably already done this step. Congrats!
+- [Overview](#overview)
+  - [The chhallenge](#the-challenge)
+  - [Screenshots](#screenshot)
+  - [Links](#links)
+- [My process](#my-process)
+  - [Built with](#built-with)
+- [Author](#author)
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+## Overview
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+### The challenge
 
-## Developing
+Users should be able to:
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+- Create, read, update, delete links and see previews in the mobile mockup
+- Receive validations if the links form is submitted without a URL or with the wrong URL pattern for the platform
+- Drag and drop links to reorder them
+- Add profile details like profile picture, first name, last name, and email
+- Receive validations if the profile details form is saved with no first or last name
+- Preview their devlinks profile and copy the link to their clipboard
+- View the optimal layout for the interface depending on their device's screen size
+- See hover and focus states for all interactive elements on the page
+- **Bonus**: Save details to a database (build the project as a full-stack app)
+- **Bonus**: Create an account and log in (add user authentication to the full-stack app)
 
-```bash
-npm run dev
+### Screenshots
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+![auth screen](./screenshots/link-tree-auth.png);
+![links screen](./screenshots/link-tree-links.png)
+![profile screen](./screenshots/link-tree-profile.png);
 
-## Building
+### Links
 
-To create a production version of your app:
+## My process
 
-```bash
-npm run build
-```
+### Built with
 
-You can preview the production build with `npm run preview`.
+- [sveltekit](https://kit.svelte.dev/)
+- [drizzle-orm](https://orm.drizzle.team/)
+- [Vite](https://vitejs.dev/)
+- [Tailwind](https://tailwindcss.com/)
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+## Author
+
+- Frontend Mentor - [@kiprop-dave](https://www.frontendmentor.io/profile/kiprop-dave)
